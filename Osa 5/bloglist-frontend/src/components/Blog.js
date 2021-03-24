@@ -31,10 +31,8 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
   }
 
   const showIfCreator = (id) => {
-    //const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
-
     if (user.username === id) {
-      return <button onClick={handleRemove}>Remove</button>
+      return <button id='remove-button' onClick={handleRemove}>Remove</button>
     }
   }
 
@@ -49,14 +47,14 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
   return (
     <div style={blogStyle} className='blog'>
       <div style={hideWhenVisible} className='visibleBlogContent'>
-        {blog.title} {blog.author} <button onClick={toggleVisibility}>View</button>
+        {blog.title} {blog.author} <button id='view-button' onClick={toggleVisibility}>View</button>
       </div>
       <div style={showWhenVisible} className='hiddenBlogContent'>
-        {blog.title} {blog.author} <button onClick={toggleVisibility}>Hide</button>
+        {blog.title} {blog.author} <button id='hide-button' onClick={toggleVisibility}>Hide</button>
         <br />
         {blog.url}
         <br />
-        likes {blog.likes} <button onClick={handleAddLike}>Like</button>
+        likes {blog.likes} <button id='like-button' onClick={handleAddLike}>Like</button>
         <br />
         {blog.user.username}
         <br />
