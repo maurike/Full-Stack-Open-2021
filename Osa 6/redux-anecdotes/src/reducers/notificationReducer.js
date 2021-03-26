@@ -3,7 +3,8 @@ const initialState = ''
 const notificationReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'SHOW_NOTIFICATION':
-			return action.data
+			clearTimeout(state.seconds)
+			return action.data.notification
 		case 'HIDE_NOTIFICATION':
 			return initialState
 		default:
@@ -11,24 +12,17 @@ const notificationReducer = (state = initialState, action) => {
 	}
 }
 
-export function showNotificationWithTimeout(type, content) {
+export const setNotification = (notification, seconds) => {
 	return async (dispatch) => {
-		if (type === 'add') {
-			dispatch(showNotification('Anecdote \'' + content + '\' added'))
-		} else if (type === 'vote') {
-			dispatch(showNotification('Anecdote \'' + content.content + '\' liked'))
-		}
-
-		setTimeout(() => {
-			dispatch(hideNotification())
-		}, 5000)
-	}
-}
-
-export const showNotification = (notification) => {
-	return {
-		type: 'SHOW_NOTIFICATION',
-		data: notification
+		dispatch({
+			type: 'SHOW_NOTIFICATION',
+			data: {
+				notification,
+				seconds: setTimeout(() => {
+					dispatch(hideNotification())
+				}, seconds * 1000)
+			}
+		})
 	}
 }
 
