@@ -1,10 +1,10 @@
 const initialState = ''
+let timeOut = ''
 
 const notificationReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'SHOW_NOTIFICATION':
-			clearTimeout(state.seconds)
-			return action.data.notification
+			return action.data
 		case 'HIDE_NOTIFICATION':
 			return initialState
 		default:
@@ -14,14 +14,15 @@ const notificationReducer = (state = initialState, action) => {
 
 export const setNotification = (notification, seconds) => {
 	return async (dispatch) => {
+		clearTimeout(timeOut)
+
+		timeOut = setTimeout(() => {
+			dispatch(hideNotification())
+		}, seconds * 1000)
+
 		dispatch({
 			type: 'SHOW_NOTIFICATION',
-			data: {
-				notification,
-				seconds: setTimeout(() => {
-					dispatch(hideNotification())
-				}, seconds * 1000)
-			}
+			data: notification
 		})
 	}
 }

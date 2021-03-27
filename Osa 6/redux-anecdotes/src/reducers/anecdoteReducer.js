@@ -10,7 +10,7 @@ const reducer = (state = [], action) => {
 		case 'CREATE_ANECDOTE':
 			return state.concat(action.data)
 		case 'INIT_ANECDOTES':
-			return action.data
+			return action.data.slice().sort((a, b) => (a.votes > b.votes ? -1 : 1))
 		default:
 			return state
 	}
