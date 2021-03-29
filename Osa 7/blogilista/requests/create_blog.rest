@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QgVXNlcm5hbWUiLCJpZCI6IjYwNTc2MmQ3OGRkZTUxMjc0YzUxNDhhOCIsImlhdCI6MTYxNjM0NTkzMCwiZXhwIjoxNjE2MzQ5NTMwfQ.fnyCmT7Lmu6SJMQiOTAoYPIpXO8OdTqLO4J404k5Fcw
+
+{
+	"title": "Test Title 4",
+	"author": "Test Author",
+	"url": "https://www.testurl.com",
+	"likes": 123,
+	"userId": "605762d78dde51274c5148a8"
+}
