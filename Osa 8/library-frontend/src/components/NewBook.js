@@ -5,9 +5,8 @@ const CREATE_BOOK = gql`
 	mutation createBook($title: String!, $author: String!, $published: Int!, $genres: [String!]!) {
 		addBook(title: $title, author: $author, published: $published, genres: $genres) {
 			title
-			author
-      published
-      genres
+			published
+			genres
 		}
 	}
 `
@@ -16,7 +15,9 @@ const ALL_BOOKS = gql`
 	query {
 		allBooks {
 			title
-			author
+			author {
+				name
+			}
 			published
 		}
 	}
@@ -24,13 +25,22 @@ const ALL_BOOKS = gql`
 
 const NewBook = (props) => {
 	const [title, setTitle] = useState('')
-	const [author, setAuhtor] = useState('')
+	const [author, setAuthor] = useState('')
 	const [published, setPublished] = useState('')
 	const [genre, setGenre] = useState('')
 	const [genres, setGenres] = useState([])
 
 	const [createBook] = useMutation(CREATE_BOOK, {
-		refetchQueries: [{ query: ALL_BOOKS }]
+		update: (store, response) => {
+			const dataInStore = store.readQuery({ query: ALL_BOOKS })
+			store.writeQuery({
+				query: ALL_BOOKS,
+				data: {
+					...dataInStore,
+					allBooks: [...dataInStore.allBooks, response.data.addBook]
+				}
+			})
+		}
 	})
 
 	if (!props.show) {
@@ -44,7 +54,7 @@ const NewBook = (props) => {
 
 		setTitle('')
 		setPublished('')
-		setAuhtor('')
+		setAuthor('')
 		setGenres([])
 		setGenre('')
 	}
@@ -63,7 +73,7 @@ const NewBook = (props) => {
 				</div>
 				<div>
 					author
-					<input value={author} onChange={({ target }) => setAuhtor(target.value)} />
+					<input value={author} onChange={({ target }) => setAuthor(target.value)} />
 				</div>
 				<div>
 					published
