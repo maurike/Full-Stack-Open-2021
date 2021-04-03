@@ -1,19 +1,6 @@
 import React, { useState } from 'react'
-import { gql, useQuery } from '@apollo/client'
-
-const ALL_BOOKS = gql`
-	query {
-		allBooks {
-			title
-			author {
-				name
-			}
-			published
-			genres
-			id
-		}
-	}
-`
+import { useQuery } from '@apollo/client'
+import { ALL_BOOKS } from '../queries'
 
 const Books = (props) => {
 	const [booksToShow, setBooksToShow] = useState([])
@@ -77,9 +64,7 @@ const Books = (props) => {
 					))}
 				</tbody>
 			</table>
-			<button onClick={() => setFilter('')}>
-				all
-			</button>
+			<button onClick={() => setFilter('')}>all</button>
 			{genreButtons}
 		</div>
 	)
